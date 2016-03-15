@@ -3,13 +3,13 @@
 const assert = require('assert')
 
 describe('Trailpack', () => {
-  let packs
+  let pack
   before(() => {
-    packs = global.app.packs
-    assert(packs)
+    pack = global.app.packs.autoreload
+    console.log(global.app.packs)
   })
-  it.skip('TODO should be loaded into the app.packs collection', () => {
-    // assert that packs contains this trailpack
+  it('should be loaded into the app.packs collection', () => {
+    assert(pack)
   })
   describe('#validate', () => {
     it.skip('TODO test')

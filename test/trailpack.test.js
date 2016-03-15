@@ -6,7 +6,6 @@ describe('Trailpack', () => {
   let pack
   before(() => {
     pack = global.app.packs.autoreload
-    console.log(global.app.packs)
   })
   it('should be loaded into the app.packs collection', () => {
     assert(pack)

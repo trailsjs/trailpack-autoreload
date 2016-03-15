@@ -15,6 +15,7 @@
     "trailjs"
   ],
   "dependencies": {
+    "chokidar": "^1.4.3",
     "trailpack": "latest"
   },
   "devDependencies": {

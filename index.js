@@ -1,8 +1,8 @@
 'use strict'
 
-const Trailpack = require('trailpack')
-const chokidar = require('chokidar')
 const path = require('path')
+const chokidar = require('chokidar')
+const Trailpack = require('trailpack')
 
 module.exports = class AutoreloadTrailpack extends Trailpack {
 
@@ -25,31 +25,67 @@ module.exports = class AutoreloadTrailpack extends Trailpack {
    */
   initialize () {
     if (process.env.NODE_ENV == 'production') {
-      this.app.log.warn('Not running "autoreload" trailpack in production mode')
+      this.log.warn('Not running "autoreload" trailpack in production mode')
       return
     }
 
-    this.watcher = chokidar.watch([ 'api', 'config' ], {
+    this.watcher = chokidar.watch([ 'api/**/*.js', 'config/**/*.js' ], {
       cwd: this.app.config.main.paths.root,
-      ignoreInitial: true,
-      interval: 200
+      ignoreInitial: true
     })
 
     this.watcher
-      .on('change', path => this.reloadApp(path))
-      .on('add', path => this.reloadApp(path))
-      .on('unlink', path => this.reloadApp(path))
+      .once('change', file => this.reloadApp(file))
+      .once('add', file => this.reloadApp(file))
+      .once('unlink', file => this.reloadApp(file))
+
+    this.once('repl:started', () => {
+      const server = this.packs.repl.server
+      server.defineCommand('reload', () => this.reloadApp())
+    })
   }
 
   unload () {
     this.watcher.close()
+    delete this.watcher
   }
 
-  reloadApp (path) {
-    this.app.log.info(`File ${path} changed. Reloading.`)
+  reloadApp (file) {
+    const root = this.app.config.main.paths.root
+    if (!file) {
+      file = root
+    }
+    else {
+      this.log.info(`File ${file} changed. Reloading.`)
+    }
+
+    this.evict(require.cache[require.resolve(path.resolve(root, file))])
 
     return this.app.stop()
-      .then(() => this.app.start())
+      .then(() => {
+        return this.app.start(require(root))
+      })
+      .then(app => {
+        if (file === root) {
+          this.log.info('App reloaded via REPL command')
+        }
+        else {
+          this.log.info('App reloaded with changes in', file)
+        }
+      })
+  }
+
+  /**
+   * Evict a branch of modules from the require cache so that subsequent
+   * requires will load from the file system.
+   */
+  evict (mod) {
+    if (mod.parent !== null) {
+      this.evict(mod.parent)
+    }
+
+    this.log.silly('Evicting module from require.cache', mod.id)
+    delete require.cache[mod.id]
   }
 
   constructor (app) {

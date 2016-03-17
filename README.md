@@ -35,7 +35,7 @@ require cache, and reloads the Trails application (via `app.start()`).
 The synchronous node `require` statement incurs non-negligible boot-time
 overhead. We avoid these costs by evicting only the affected module(s).
 
-<a href="http://trailsjs.io><img src="http://i.imgur.com/dCjNisP.png"></a>
+<a href="http://trailsjs.io"><img src="http://i.imgur.com/dCjNisP.png"></a>
 
 [trails-image]: http://i.imgur.com/zfT2NEv.png
 [trails-url]: http://trailsjs.io

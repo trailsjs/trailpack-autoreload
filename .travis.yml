@@ -1,0 +1,22 @@
+language: node_js
+node_js:
+- '4'
+- stable
+
+notifications:
+  email: false
+  webhooks:
+    urls:
+    - https://webhooks.gitter.im/e/54f8a1e753f859f5ca1a
+    on_start: never
+    on_failure: change
+
+deploy:
+  provider: npm
+  email: hello@trailsjs.io
+  api_key:
+    secure: FqKe+QueheAqHY5+AJk0xrMs2XES1tRbgNbzVp0rPkaRDgEBRLFEf30dR0QkzAiLgKKuN2zvj9itS8+2UlZp75ug2og9hH/WEurSIID9f3W6R6LKFRizcY8a212TYZmzj8y5Ff7lGfO2mmNsxMWjoH5l512XdfabGjfl7D81CkgNWIJ0n3iSNh+QwRoqZMF4gA+ha6nZXZi0J6BER7L57M/ZHS691XY2dTGy7xfgTWTYwqjCrVZwPfrIdyXaah2Y6/sriZkzhDnAQ7AAGzqF8hE1SZ/mmK1N1SAEtj73bfXlVZ/tBu/MOxc0vMlzbRCRq85D9zjy+3b/nSr48/e4uytP5spwZUYv1Y+8B5Di4h5ARDmO4ROx1VS6L6hMf1SeIZYWcHfck5AN2ncckSks7L7qM6VZrULShTQEvIYc9x+k460LO61lVunOw9Xhaa2enDm5jrwIvyAIju9JVZ6bkN0JNmss9ocgxizXORq3YzPqfZtdJ/oyK/h91pqLHy1fU8Ld3gWcYRadxtewOUpEKE6wc3Yr+VPNn0Jlre0HSu4K4nefYKK2ClvB5THc92B/oAQQ8AcRj4TOyB9XOhZ5VXcnVuEMCafbJ8/RSXkPMat+qebM1dJgZMljCdLuVR3/ZL7sBk0543wWRlReD4FaJiVM0uEOMy2s5I+B8HmxqNc=
+  on:
+    tags: true
+    repo: trailsjs/trailpack-autoreload
+    node: stable

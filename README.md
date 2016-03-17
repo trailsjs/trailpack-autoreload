@@ -5,6 +5,8 @@
 [![Dependency Status][daviddm-image]][daviddm-url]
 [![Code Climate][codeclimate-image]][codeclimate-url]
 
+This Trailpack will automatically reload your Trails application on code
+changes. It listens for changes in `api/` and `config/`.
 
 
 ## Install
@@ -24,6 +26,14 @@ module.exports = {
   ]
 }
 ```
+
+This trailpack offers significant performance advantages over other solutions
+such as nodemon, which restarts the entire node process. This trailpack detects
+the file(s) in which the change occured, evicts those modules from the
+require cache, and reloads the Trails application (via `app.start()`).
+
+The synchronous node `require` statement incurs non-negligible boot-time
+overhead. We avoid these costs by evicting only the affected module(s).
 
 [npm-image]: https://img.shields.io/npm/v/trailpack-autoreload.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/trailpack-autoreload

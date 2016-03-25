@@ -1,5 +1,6 @@
 'use strict'
 
+const util = require('util')
 const path = require('path')
 const chokidar = require('chokidar')
 const Trailpack = require('trailpack')
@@ -35,9 +36,9 @@ module.exports = class AutoreloadTrailpack extends Trailpack {
     })
 
     this.watcher
-      .once('change', file => this.reloadApp(file))
-      .once('add', file => this.reloadApp(file))
-      .once('unlink', file => this.reloadApp(file))
+      .on('change', file => this.reloadApp(file))
+      .on('add', file => this.reloadApp(file))
+      .on('unlink', file => this.reloadApp(file))
 
     this.once('repl:started', () => {
       const server = this.packs.repl.server
@@ -61,6 +62,17 @@ module.exports = class AutoreloadTrailpack extends Trailpack {
 
     this.evict(require.cache[require.resolve(path.resolve(root, file))])
 
+    try {
+      require(root)
+    }
+    catch (e) {
+      this.log.error(e.message)
+      this.log.error(util.inspect(e).toString().split('\n').slice(0, 3).join('\n'))
+      this.log.error('Trails will reload when this problem is fixed.')
+      this.log.info('Reload canceled. Application is running.')
+      return
+    }
+
     return this.app.stop()
       .then(() => {
         return this.app.start(require(root))
@@ -80,6 +92,9 @@ module.exports = class AutoreloadTrailpack extends Trailpack {
    * requires will load from the file system.
    */
   evict (mod) {
+    if (!mod || !mod.id || !require.cache[mod.id]) {
+      return
+    }
     if (mod.parent !== null) {
       this.evict(mod.parent)
     }

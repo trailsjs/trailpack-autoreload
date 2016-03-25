@@ -30,7 +30,9 @@ module.exports = {
 This trailpack offers significant performance advantages over other solutions
 such as nodemon, which restarts the entire node process. This trailpack detects
 the file(s) in which the change occured, evicts those modules from the
-require cache, and reloads the Trails application (via `app.start()`).
+require cache, and reloads the Trails application (via `app.start()`). Moreover,
+the application will continue running in its current state if a syntax error
+is written into a watched file; Trails will inform you of the error, and carry on.
 
 The synchronous node `require` statement incurs non-negligible boot-time
 overhead. We avoid these costs by evicting only the affected module(s).

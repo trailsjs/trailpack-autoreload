@@ -97,10 +97,8 @@ module.exports = class AutoreloadTrailpack extends Trailpack {
     else {
       this.log.info(`File ${file} changed. Reloading.`)
     }
-
     this.evict(require.cache[require.resolve(path.resolve(root, file))])
 
-   
     try {
       app = require(root)
     }

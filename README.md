@@ -46,7 +46,7 @@ overhead. We avoid these costs by evicting only the affected module(s).
 [ci-image]: https://img.shields.io/travis/trailsjs/trailpack-autoreload/master.svg?style=flat-square
 [ci-url]: https://travis-ci.org/trailsjs/trailpack-autoreload
 [daviddm-image]: http://img.shields.io/david//trailpack-autoreload.svg?style=flat-square
-[daviddm-url]: https://david-dm.org//trailpack-autoreload
-[codeclimate-image]: https://img.shields.io/codeclimate/github//trailpack-autoreload.svg?style=flat-square
-[codeclimate-url]: https://codeclimate.com/github//trailpack-autoreload
+[daviddm-url]: https://david-dm.org/trailsjs/trailpack-autoreload
+[codeclimate-image]: https://img.shields.io/codeclimate/github/trailsjs/trailpack-autoreload.svg?style=flat-square
+[codeclimate-url]: https://codeclimate.com/github/trailsjs/trailpack-autoreload
 

@@ -30,10 +30,16 @@ module.exports = class AutoreloadTrailpack extends Trailpack {
       return
     }
 
-    this.watcher = chokidar.watch([ 'api/**/*.js', 'config/**/*.js' ], {
+    let config = {
       cwd: this.app.config.main.paths.root,
-      ignoreInitial: true
-    })
+      ignoreInitial: true,
+    }
+
+    if (this.app.config.hasOwnProperty('autoreload')) {
+      config = this.app.config.autoreload;
+    }
+
+    this.watcher = chokidar.watch([ 'api/**/*.js', 'config/**/*.js' ], config);
 
     this.watcher
       .on('change', file => this.reloadApp(file))

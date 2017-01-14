@@ -5,6 +5,43 @@ const path = require('path')
 const chokidar = require('chokidar')
 const Trailpack = require('trailpack')
 
+function assignConfigDefaults (config) {
+  if (!config) {
+    config = { }
+  }
+  if (!config.env) {
+    config.env = { }
+  }
+  if (!config.env[process.env.NODE_ENV]) {
+    config.env[process.env.NODE_ENV] = { }
+  }
+  if (!config.main) {
+    config.main = { }
+  }
+  if (!config.main.packs) {
+    config.main.packs = [ ]
+  }
+  if (!config.main.paths) {
+    config.main.paths = { }
+  }
+  if (!config.main.maxListeners) {
+    config.main.maxListeners = 128
+  }
+  if (!config.log) {
+    config.log = { }
+  }
+
+  if (!config.main.paths.root) {
+    config.main.paths.root = path.resolve(process.cwd())
+  }
+
+  if (!config.main.paths.temp) {
+    config.main.paths.temp = path.resolve(process.cwd(), '.tmp')
+  }
+
+  return config
+}
+
 module.exports = class AutoreloadTrailpack extends Trailpack {
 
   /**
@@ -53,17 +90,17 @@ module.exports = class AutoreloadTrailpack extends Trailpack {
 
   reloadApp (file) {
     const root = this.app.config.main.paths.root
+    let app
     if (!file) {
       file = root
     }
     else {
       this.log.info(`File ${file} changed. Reloading.`)
     }
-
     this.evict(require.cache[require.resolve(path.resolve(root, file))])
 
     try {
-      require(root)
+      app = require(root)
     }
     catch (e) {
       this.log.error(e.message)
@@ -75,7 +112,8 @@ module.exports = class AutoreloadTrailpack extends Trailpack {
 
     return this.app.stop()
       .then(() => {
-        return this.app.start(require(root))
+        this.app.config = assignConfigDefaults(app.config)
+        return this.app.start(app)
       })
       .then(app => {
         if (file === root) {

@@ -22,7 +22,8 @@
     "eslint-config-trails": "^3",
     "lodash": "^4.6.1",
     "mocha": "^4",
-    "smokesignals": "^3"
+    "smokesignals": "^3",
+    "trails": "^3.0.3"
   },
   "scripts": {
     "test": "eslint . && mocha"

@@ -1,3 +1,4 @@
+/*eslint no-process-env: 0 */
 const util = require('util')
 const path = require('path')
 const chokidar = require('chokidar')
@@ -29,7 +30,7 @@ module.exports = class AutoreloadTrailpack extends Trailpack {
       .on('add', file => this.reloadApp(file))
       .on('unlink', file => this.reloadApp(file))
 
-    this.once('repl:started', () => {
+    this.app.after('repl:started', () => {
       const server = this.packs.repl.server
       server.defineCommand('reload', () => this.reloadApp())
     })

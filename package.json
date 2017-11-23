@@ -1,14 +1,13 @@
 {
   "name": "trailpack-autoreload",
   "version": "1.0.2",
-  "description": "",
-  "homepage": "",
+  "description": "Autoreload Trails Application on source changes",
+  "homepage": "http://trailsjs.io",
   "author": {
     "name": "Travis Webb",
     "email": "hello@trailsjs.io",
     "url": "trailsjs.io"
   },
-  "main": "index.js",
   "keywords": [
     "trailpack",
     "trails",
@@ -16,24 +15,20 @@
   ],
   "dependencies": {
     "chokidar": "^1.4.3",
-    "trailpack": "latest"
+    "trailpack": "^3"
   },
   "devDependencies": {
-    "eslint": "^2.4",
-    "eslint-config-trails": "^1.0.1",
+    "eslint": "^4",
+    "eslint-config-trails": "^3",
     "lodash": "^4.6.1",
-    "mocha": "^2.3",
-    "smokesignals": "^1.0.2",
-    "trailpack-core": "^1.0.0-beta-3"
-  },
-  "peerDependencies": {
-    "trails": "^1.0.0-beta-3"
+    "mocha": "^4",
+    "smokesignals": "^3"
   },
   "scripts": {
     "test": "eslint . && mocha"
   },
   "engines": {
-    "node": ">= 4.0.0"
+    "node": ">= 7.6.0"
   },
   "eslintConfig": {
     "extends": "trails"

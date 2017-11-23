@@ -1,5 +1,3 @@
-'use strict'
-
 const util = require('util')
 const path = require('path')
 const chokidar = require('chokidar')
@@ -7,23 +5,14 @@ const Trailpack = require('trailpack')
 
 module.exports = class AutoreloadTrailpack extends Trailpack {
 
-  /**
-   * TODO document method
-   */
   validate () {
     return this.app.config.main.paths.root
   }
 
-  /**
-   * TODO document method
-   */
   configure () {
 
   }
 
-  /**
-   * TODO document method
-   */
   initialize () {
     if (process.env.NODE_ENV == 'production') {
       this.log.warn('Not running "autoreload" trailpack in production mode')
